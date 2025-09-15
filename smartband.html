@@ -1,0 +1,999 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HealthGuard - Advanced Health Monitoring Smart Band</title>
+    <style>
+        /* Variables */
+        :root {
+            --primary: #1a73e8;
+            --primary-dark: #0d47a1;
+            --accent: #e91e63;
+            --light-bg: #f8fafc;
+            --dark-text: #2d3748;
+            --light-text: #718096;
+            --white: #ffffff;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+
+        /* Reset & Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--dark-text);
+            overflow-x: hidden;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 28px;
+            background: var(--primary);
+            color: var(--white);
+            border-radius: 30px;
+            font-weight: 600;
+            transition: var(--transition);
+            border: none;
+            cursor: pointer;
+            box-shadow: var(--shadow);
+        }
+
+        .btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+
+        .btn-accent {
+            background: var(--accent);
+        }
+
+        .btn-accent:hover {
+            background: #c2185b;
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+        }
+
+        .btn-outline:hover {
+            background: var(--primary);
+            color: var(--white);
+        }
+
+        .section {
+            padding: 80px 0;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            color: var(--light-text);
+            margin-bottom: 60px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Header */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: var(--white);
+            box-shadow: var(--shadow);
+            z-index: 1000;
+            padding: 15px 0;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+        }
+
+        .nav-link {
+            font-weight: 500;
+            transition: var(--transition);
+        }
+
+        .nav-link:hover {
+            color: var(--primary);
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Hero Section */
+        .hero {
+            padding-top: 150px;
+            padding-bottom: 80px;
+            background: linear-gradient(135deg, var(--light-bg) 0%, #e3f2fd 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-content {
+            display: flex;
+            align-items: center;
+            gap: 60px;
+        }
+
+        .hero-text {
+            flex: 1;
+        }
+
+        .hero-title {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+
+        .hero-description {
+            font-size: 1.2rem;
+            color: var(--light-text);
+            margin-bottom: 30px;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 15px;
+        }
+
+        .hero-image {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            position: relative;
+        }
+
+        .band-image {
+            width: 100%;
+            max-width: 400px;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+            transform: rotate(-5deg);
+            transition: var(--transition);
+        }
+
+        .band-image:hover {
+            transform: rotate(0deg);
+        }
+
+        /* Features Section */
+        .features {
+            background: var(--white);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+        }
+
+        .feature-card {
+            background: var(--white);
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .feature-icon {
+            width: 70px;
+            height: 70px;
+            background: var(--light-bg);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            color: var(--primary);
+            font-size: 1.8rem;
+        }
+
+        .feature-title {
+            font-size: 1.4rem;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .feature-description {
+            color: var(--light-text);
+        }
+
+        /* How it Works */
+        .how-it-works {
+            background: var(--light-bg);
+        }
+
+        .steps {
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .step {
+            display: flex;
+            align-items: flex-start;
+            gap: 20px;
+        }
+
+        .step-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary);
+            background: var(--light-bg);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .step-content h3 {
+            font-size: 1.4rem;
+            margin-bottom: 10px;
+        }
+
+        .step-content p {
+            color: var(--light-text);
+        }
+
+        /* Demo Section */
+        .demo {
+            background: var(--white);
+            text-align: center;
+        }
+
+        .demo-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .demo-image {
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto 40px;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+        }
+
+        .sos-button {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: var(--accent);
+            color: var(--white);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin: 0 auto 20px;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: 0 10px 20px rgba(233, 30, 99, 0.3);
+        }
+
+        .sos-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 15px 30px rgba(233, 30, 99, 0.4);
+        }
+
+        .demo-info {
+            margin-top: 20px;
+            font-style: italic;
+            color: var(--light-text);
+        }
+
+        /* Testimonials */
+        .testimonials {
+            background: var(--light-bg);
+        }
+
+        .testimonial-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .testimonial-card {
+            background: var(--white);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: var(--shadow);
+        }
+
+        .testimonial-text {
+            font-style: italic;
+            margin-bottom: 20px;
+            color: var(--dark-text);
+        }
+
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .author-image {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            overflow: hidden;
+        }
+
+        .author-details h4 {
+            font-weight: 600;
+        }
+
+        .author-details p {
+            color: var(--light-text);
+            font-size: 0.9rem;
+        }
+
+        /* Pricing */
+        .pricing-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .pricing-card {
+            background: var(--white);
+            border-radius: 15px;
+            padding: 40px 30px;
+            text-align: center;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .pricing-card.popular {
+            border: 2px solid var(--primary);
+            transform: scale(1.05);
+        }
+
+        .popular-badge {
+            position: absolute;
+            top: 15px;
+            right: -30px;
+            background: var(--primary);
+            color: var(--white);
+            padding: 5px 30px;
+            transform: rotate(45deg);
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .price {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin: 20px 0;
+            color: var(--primary);
+        }
+
+        .price-period {
+            font-size: 1rem;
+            color: var(--light-text);
+        }
+
+        .pricing-features {
+            margin: 30px 0;
+        }
+
+        .pricing-feature {
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        /* FAQ */
+        .faq {
+            background: var(--light-bg);
+        }
+
+        .faq-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            background: var(--white);
+            border-radius: 10px;
+            margin-bottom: 15px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+        }
+
+        .faq-question {
+            padding: 20px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+        }
+
+        .faq-answer {
+            padding: 0 20px 20px;
+            color: var(--light-text);
+            display: none;
+        }
+
+        .faq-active .faq-answer {
+            display: block;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--dark-text);
+            color: var(--white);
+            padding: 60px 0 30px;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-column h3 {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            color: var(--white);
+        }
+
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links a {
+            color: #c5c5c5;
+            transition: var(--transition);
+        }
+
+        .footer-links a:hover {
+            color: var(--white);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .social-link {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+        }
+
+        .social-link:hover {
+            background: var(--primary);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #c5c5c5;
+            font-size: 0.9rem;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 992px) {
+            .hero-content {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .hero-buttons {
+                justify-content: center;
+            }
+            
+            .step {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .step-number {
+                margin: 0 auto;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .hero-title {
+                font-size: 2.2rem;
+            }
+            
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background: var(--white);
+                flex-direction: column;
+                padding: 20px;
+                box-shadow: var(--shadow);
+                gap: 15px;
+            }
+            
+            .nav-links.active {
+                display: flex;
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            .hero-buttons {
+                flex-direction: column;
+            }
+            
+            .pricing-card.popular {
+                transform: scale(1);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container nav-container">
+            <a href="#" class="logo">HealthGuard</a>
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="#features" class="nav-link">Features</a></li>
+                    <li><a href="#how-it-works" class="nav-link">How It Works</a></li>
+                    <li><a href="#testimonials" class="nav-link">Testimonials</a></li>
+                    <li><a href="#pricing" class="nav-link">Pricing</a></li>
+                    <li><a href="#faq" class="nav-link">FAQ</a></li>
+                </ul>
+            </nav>
+            <div class="mobile-menu-btn">☰</div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="container hero-content">
+            <div class="hero-text">
+                <h1 class="hero-title">Your Health,<br>Always Monitored</h1>
+                <p class="hero-description">HealthGuard is the advanced smart band with SOS emergency button, GPS tracking, and professional health monitoring sensors for pulse, SpO₂, and ECG.</p>
+                <div class="hero-buttons">
+                    <a href="#pricing" class="btn">Pre-order Now</a>
+                    <a href="#features" class="btn btn-outline">Learn More</a>
+                </div>
+            </div>
+            <div class="hero-image">
+                <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/007474ec-f306-4e80-b38c-97924890c0c0.png" alt="HealthGuard smart band displayed on a wrist with sleek design and clear digital display showing health metrics" class="band-image">
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="section features" id="features">
+        <div class="container">
+            <h2 class="section-title">Advanced Health Monitoring</h2>
+            <p class="section-subtitle">HealthGuard combines emergency features with comprehensive health tracking to keep you safe and informed about your wellbeing.</p>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🆘</div>
+                    <h3 class="feature-title">SOS Emergency Button</h3>
+                    <p class="feature-description">Instantly send your location and alert emergency contacts with a single press when you need help.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">📍</div>
+                    <h3 class="feature-title">Real-time GPS Tracking</h3>
+                    <p class="feature-description">Accurate location tracking for safety and fitness activities. Share your location with trusted contacts.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">❤️</div>
+                    <h3 class="feature-title">Heart Rate Monitor</h3>
+                    <p class="feature-description">24/7 heart rate monitoring with high-precision optical sensors and abnormal rhythm alerts.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">🫁</div>
+                    <h3 class="feature-title">Blood Oxygen (SpO₂)</h3>
+                    <p class="feature-description">Measure blood oxygen saturation levels during activities and sleep to monitor overall wellness.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">📊</div>
+                    <h3 class="feature-title">ECG Monitoring</h3>
+                    <p class="feature-description">Professional-grade electrocardiogram readings to detect atrial fibrillation and other heart conditions.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">📱</div>
+                    <h3 class="feature-title">Smart Notifications</h3>
+                    <p class="feature-description">Receive calls, messages, and app alerts directly on your wrist without missing important updates.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section class="section how-it-works" id="how-it-works">
+        <div class="container">
+            <h2 class="section-title">How HealthGuard Works</h2>
+            <p class="section-subtitle">Simple setup and intuitive operation make HealthGuard accessible for users of all ages and tech experience levels.</p>
+            
+            <div class="steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <h3>Wear and Pair</h3>
+                        <p>Simply wear your HealthGuard band and pair it with the companion app on your smartphone via Bluetooth.</p>
+                    </div>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <h3>Customize Settings</h3>
+                        <p>Set up your emergency contacts, health goals, and notification preferences in the easy-to-use app.</p>
+                    </div>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <h3>Monitor Your Health</h3>
+                        <p>HealthGuard automatically tracks your vital signs and activity, providing insights and alerts when needed.</p>
+                    </div>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <div class="step-content">
+                        <h3>Stay Connected & Safe</h3>
+                        <p>Receive notifications, use the SOS feature in emergencies, and share your wellbeing reports with healthcare providers.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Demo Section -->
+    <section class="section demo">
+        <div class="container demo-container">
+            <h2 class="section-title">Experience the SOS Feature</h2>
+            <p class="section-subtitle">Press the virtual SOS button to see how HealthGuard responds in emergency situations.</p>
+            
+            <div class="demo-image">
+                <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/0a7d1b70-ba33-4010-aa01-2540212592b6.png" alt="Close-up view of HealthGuard band interface with SOS button highlighted in red and health metrics displayed" class="band-image">
+            </div>
+            
+            <div class="sos-button" id="sos-demo">SOS</div>
+            <p>In a real emergency, pressing this button would alert your contacts and share your location.</p>
+            
+            <p class="demo-info">Note: This is a demonstration only. No actual alerts will be sent.</p>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="section testimonials" id="testimonials">
+        <div class="container">
+            <h2 class="section-title">What Our Users Say</h2>
+            <p class="section-subtitle">HealthGuard has helped thousands of people monitor their health and stay safe in emergencies.</p>
+            
+            <div class="testimonial-grid">
+                <div class="testimonial-card">
+                    <p class="testimonial-text">"As someone with a heart condition, HealthGuard gives me peace of mind. The ECG feature detected an irregular rhythm that led to early treatment."</p>
+                    <div class="testimonial-author">
+                        <div class="author-image">
+                            <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/2ddb5340-600c-4228-a0b4-e577913d76ee.png" alt="Portrait of Robert Johnson, a satisfied HealthGuard customer">
+                        </div>
+                        <div class="author-details">
+                            <h4>Akanksha67</h4>
+                            <p>HealthGuard User</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="testimonial-card">
+                    <p class="testimonial-text">"I bought HealthGuard for my elderly mother. The SOS feature and fall detection give our whole family confidence that she can get help if needed."</p>
+                    <div class="testimonial-author">
+                        <div class="author-image">
+                            <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/0cef0418-089f-48e1-b1b1-ca1b54de72db.png" alt="Portrait of Sarah Williams, a daughter who bought HealthGuard for her mother">
+                        </div>
+                        <div class="author-details">
+                            <h4>Sarah Williams</h4>
+                            <p>Caring Daughter</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="testimonial-card">
+                    <p class="testimonial-text">"The battery life is impressive, and the health metrics are as accurate as my doctor's equipment. It's revolutionized how I track my fitness progress."</p>
+                    <div class="testimonial-author">
+                        <div class="author-image">
+                            <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/8b11478d-37eb-46c8-8fc8-2e7e6424d323.png" alt="Portrait of Michael Chen, an athlete who uses HealthGuard for fitness tracking">
+                        </div>
+                        <div class="author-details">
+                            <h4>Michael Chen</h4>
+                            <p>Fitness Enthusiast</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section class="section pricing" id="pricing">
+        <div class="container">
+            <h2 class="section-title">Choose Your HealthGuard</h2>
+            <p class="section-subtitle">Select the plan that fits your health monitoring needs and budget.</p>
+            
+            <div class="pricing-cards">
+                <div class="pricing-card">
+                    <h3>Standard</h3>
+                    <div class="price">$99<span class="price-period">/one-time</span></div>
+                    <ul class="pricing-features">
+                        <li class="pricing-feature">24/7 Heart Rate Monitoring</li>
+                        <li class="pricing-feature">Step & Sleep Tracking</li>
+                        <li class="pricing-feature">SOS Emergency Button</li>
+                        <li class="pricing-feature">Basic GPS Tracking</li>
+                        <li class="pricing-feature">Smart Notifications</li>
+                    </ul>
+                    <a href="#" class="btn btn-outline">Pre-order Now</a>
+                </div>
+                
+                <div class="pricing-card popular">
+                    <div class="popular-badge">Popular</div>
+                    <h3>Advanced</h3>
+                    <div class="price">$149<span class="price-period">/one-time</span></div>
+                    <ul class="pricing-features">
+                        <li class="pricing-feature">All Standard Features</li>
+                        <li class="pricing-feature">Blood Oxygen (SpO₂) Monitoring</li>
+                        <li class="pricing-feature">Advanced GPS with Location Sharing</li>
+                        <li class="pricing-feature">ECG App for Heart Rhythm</li>
+                        <li class="pricing-feature">Fall Detection</li>
+                        <li class="pricing-feature">Extended Battery Life</li>
+                    </ul>
+                    <a href="#" class="btn">Pre-order Now</a>
+                </div>
+                
+                <div class="pricing-card">
+                    <h3>Premium Care</h3>
+                    <div class="price">$199<span class="price-period">/one-time</span></div>
+                    <ul class="pricing-features">
+                        <li class="pricing-feature">All Advanced Features</li>
+                        <li class="pricing-feature">Premium Leather & Metal Band</li>
+                        <li class="pricing-feature">Wireless Charging</li>
+                        <li class="pricing-feature">Health Report Generation</li>
+                        <li class="pricing-feature">Priority Support</li>
+                        <li class="pricing-feature">2-Year Extended Warranty</li>
+                    </ul>
+                    <a href="#" class="btn btn-outline">Pre-order Now</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="section faq" id="faq">
+        <div class="container faq-container">
+            <h2 class="section-title">Frequently Asked Questions</h2>
+            <p class="section-subtitle">Find answers to common questions about HealthGuard.</p>
+            
+            <div class="faq-list">
+                <div class="faq-item">
+                    <div class="faq-question">How accurate are the health measurements? <span>+</span></div>
+                    <div class="faq-answer">
+                        <p>HealthGuard uses medical-grade sensors that have been clinically validated. The heart rate monitor is accurate to within ±2 bpm, and the ECG app can detect atrial fibrillation with 99% accuracy. SpO₂ measurements are accurate to within ±2%.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">How long does the battery last? <span>+</span></div>
+                    <div class="faq-answer">
+                        <p>The Standard model offers up to 5 days of battery life with typical use. The Advanced and Premium models feature larger batteries that can last up to 7 days. Battery life varies based on usage of GPS and continuous health monitoring features.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">Is HealthGuard waterproof? <span>+</span></div>
+                    <div class="faq-answer">
+                        <p>Yes, all HealthGuard models are rated IP68 for water resistance, meaning they can withstand immersion in up to 1.5 meters of water for 30 minutes. You can wear it while swimming, showering, or in the rain.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">How does the SOS feature work? <span>+</span></div>
+                    <div class="faq-answer">
+                        <p>When you press and hold the SOS button for 3 seconds, HealthGuard will first vibrate as a warning. If you continue holding, it will send an alert to your emergency contacts with your precise GPS location. It will also call the first contact on your list if they don't respond to the alert within 60 seconds.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">Can I share health data with my doctor? <span>+</span></div>
+                    <div class="faq-answer">
+                        <p>Yes, the HealthGuard app allows you to generate detailed health reports that you can share with healthcare providers. These reports include trends in your heart rate, blood oxygen, ECG readings, and activity levels over selected time periods.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-column">
+                    <h3>HealthGuard</h3>
+                    <p>Advanced health monitoring for safety and wellbeing.</p>
+                    <div class="social-links">
+                        <a href="https://www.instagram.com" class="social-link">f</a>
+                        <a href="#" class="social-link">t</a>
+                        <a href="#" class="social-link">in</a>
+                        <a href="#" class="social-link">ig</a>
+                    </div>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Product</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Features</a></li>
+                        <li><a href="#">How It Works</a></li>
+                        <li><a href="#">Pricing</a></li>
+                        <li><a href="#">Support</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Company</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Careers</a></li>
+                        <li><a href="#">Blog</a></li>
+                        <li><a href="#">Press</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Contact</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">info@healthguard.com</a></li>
+                        <li><a href="#">+919763769967</a></li>
+                        <li><a href="#">Support Center</a></li>
+                        <li><a href="#">Returns & Warranty</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>© 2025 HealthGuard. All rights reserved. | <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        document.querySelector('.mobile-menu-btn').addEventListener('click', function() {
+            document.querySelector('.nav-links').classList.toggle('active');
+        });
+        
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // Close mobile menu if open
+                document.querySelector('.nav-links').classList.remove('active');
+                
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+        
+        // SOS Button Demo
+        document.getElementById('sos-demo').addEventListener('click', function() {
+            this.innerHTML = 'SENDING...';
+            this.style.backgroundColor = '#ff5252';
+            
+            setTimeout(() => {
+                alert('In a real emergency, your location would have been sent to your emergency contacts and emergency services would have been alerted.');
+                this.innerHTML = 'SOS';
+                this.style.backgroundColor = '';
+            }, 1500);
+        });
+        
+        // FAQ Accordion
+        document.querySelectorAll('.faq-question').forEach(question => {
+            question.addEventListener('click', () => {
+                const item = question.parentNode;
+                item.classList.toggle('faq-active');
+                
+                // Change the plus/minus sign
+                const sign = question.querySelector('span');
+                sign.textContent = item.classList.contains('faq-active') ? '−' : '+';
+            });
+        });
+    </script>
+</body>
+</html>

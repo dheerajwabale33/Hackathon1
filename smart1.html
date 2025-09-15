@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Band Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Arial, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+            color: #fff;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .smart-band {
+            width: 380px;
+            height: 650px;
+            background: rgba(0, 0, 0, 0.8);
+            border-radius: 40px;
+            overflow: hidden;
+            box-shadow: 0 0 30px rgba(0, 255, 255, 0.3);
+            position: relative;
+            border: 2px solid #00ffff;
+        }
+        
+        .top-notch {
+            height: 30px;
+            background: #111;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+            border-radius: 40px 40px 0 0;
+        }
+        
+        .time {
+            font-size: 14px;
+        }
+        
+        .status-icons {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .status-icons i {
+            font-size: 12px;
+        }
+        
+        .battery {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .battery-level {
+            height: 10px;
+            width: 30px;
+            background: #333;
+            border-radius: 5px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .battery-level:after {
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 20px;
+            height: 6px;
+            background: #00ff00;
+            border-radius: 3px;
+        }
+        
+        .main-display {
+            padding: 20px;
+            height: calc(100% - 100px);
+            overflow-y: auto;
+        }
+        
+        .welcome-banner {
+            text-align: center;
+            margin-bottom: 25px;
+            background: rgba(0, 100, 100, 0.2);
+            padding: 15px;
+            border-radius: 20px;
+        }
+        
+        .welcome-banner h1 {
+            font-size: 22px;
+            margin-bottom: 5px;
+        }
+        
+        .welcome-banner p {
+            color: #00ffff;
+            font-size: 14px;
+        }
+        
+        .feature-card {
+            background: rgba(30, 30, 40, 0.6);
+            border-radius: 15px;
+            padding: 15px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .feature-card h3 {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+            color: #00ffff;
+            font-size: 18px;
+        }
+        
+        .sos-button {
+            background: linear-gradient(to right, #ff416c, #ff4b2b);
+            width: 150px;
+            height: 150px;
+            margin: 20px auto;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 30px;
+            font-weight: bold;
+            color: white;
+            cursor: pointer;
+            box-shadow: 0 0 20px rgba(255, 75, 43, 0.7);
+            transition: transform 0.2s, box-shadow 0.2s;
+            border: none;
+        }
+        
+        .sos-button:active {
+            transform: scale(0.95);
+            box-shadow: 0 0 40px rgba(255, 75, 43, 0.9);
+        }
+        
+        .stats {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+        }
+        
+        .stat {
+            text-align: center;
+            flex: 1;
+        }
+        
+        .stat-value {
+            font-size: 28px;
+            font-weight: bold;
+            color: #00ffff;
+            margin-bottom: 5px;
+        }
+        
+        .stat-label {
+            font-size: 12px;
+            color: #aaa;
+        }
+        
+        .progress-bar {
+            height: 10px;
+            background: #333;
+            border-radius: 5px;
+            margin-top: 10px;
+            overflow: hidden;
+        }
+        
+        .progress {
+            height: 100%;
+            border-radius: 5px;
+        }
+        
+        .heart-rate .progress {
+            background: linear-gradient(to right, #ff416c, #ff4b2b);
+            width: 85%;
+        }
+        
+        .spo2 .progress {
+            background: linear-gradient(to right, #00b09b, #96c93d);
+            width: 98%;
+        }
+        
+        .ecg .progress {
+            background: linear-gradient(to right, #834d9b, #d04ed6);
+            width: 92%;
+        }
+        
+        .gps-map {
+            height: 150px;
+            background: #222;
+            border-radius: 10px;
+            margin-top: 15px;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .map-marker {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #ff416c;
+            font-size: 30px;
+            filter: drop-shadow(0 0 5px rgba(255, 65, 108, 0.8));
+        }
+        
+        .map-grid {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(to right, rgba(255, 255, 255, 0.1) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+        
+        .coordinates {
+            margin-top: 10px;
+            text-align: center;
+            font-size: 12px;
+            color: #ccc;
+        }
+        
+        .bottom-nav {
+            height: 70px;
+            background: #111;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            border-radius: 0 0 40px 40px;
+        }
+        
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: #555;
+            font-size: 12px;
+        }
+        
+        .nav-item.active {
+            color: #00ffff;
+        }
+        
+        .nav-item i {
+            font-size: 20px;
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="smart-band">
+        <div class="top-notch">
+            <div class="time">14:35</div>
+            <div class="status-icons">
+                <i class="fas fa-bluetooth-b"></i>
+                <i class="fas fa-wifi"></i>
+            </div>
+            <div class="battery">
+                <div class="battery-level"></div>
+                <i class="fas fa-bolt"></i>
+            </div>
+        </div>
+        
+        <div class="main-display">
+            <div class="welcome-banner">
+                <h1>Health Tracker Pro</h1>
+                <p>Your health status is good today</p>
+            </div>
+            
+            <div class="feature-card">
+                <h3><i class="fas fa-heart"></i> Heart Rate</h3>
+                <div class="stats">
+                    <div class="stat">
+                        <div class="stat-value">72</div>
+                        <div class="stat-label">BPM</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value">98</div>
+                        <div class="stat-label">Regular</div>
+                    </div>
+                </div>
+                <div class="progress-bar heart-rate">
+                    <div class="progress"></div>
+                </div>
+            </div>
+            
+            <div class="feature-card">
+                <h3><i class="fas fa-lungs"></i> SpO₂</h3>
+                <div class="stats">
+                    <div class="stat">
+                        <div class="stat-value">98%</div>
+                        <div class="stat-label">Oxygen</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value">60</div>
+                        <div class="stat-label">Quality</div>
+                    </div>
+                </div>
+                <div class="progress-bar spo2">
+                    <div class="progress"></div>
+                </div>
+            </div>
+            
+            <div class="feature-card">
+                <h3><i class="fas fa-heartbeat"></i> ECG</h3>
+                <div class="stats">
+                    <div class="stat">
+                        <div class="stat-value">Normal</div>
+                        <div class="stat-label">Rhythm</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value">92</div>
+                        <div class="stat-label">Quality</div>
+                    </div>
+                </div>
+                <div class="progress-bar ecg">
+                    <div class="progress"></div>
+                </div>
+            </div>
+            
+            <div class="feature-card">
+                <h3><i class="fas fa-map-marker-alt"></i> GPS Location</h3>
+                <div class="gps-map">
+                    <div class="map-grid"></div>
+                    <div class="map-marker">
+                        <i class="fas fa-location-dot"></i>
+                    </div>
+                </div>
+                <div class="coordinates">
+                    34.0522° N, 118.2437° W
+                </div>
+            </div>
+            
+            <div class="feature-card">
+                <h3><i class="fas fa-exclamation-triangle"></i> SOS Emergency</h3>
+                <p style="text-align: center; margin-bottom: 15px; font-size: 14px;">
+                    Press button to send emergency alert with your location
+                </p>
+                <button class="sos-button">SOS</button>
+            </div>
+        </div>
+        
+        <div class="bottom-nav">
+            <div class="nav-item active">
+                <i class="fas fa-home"></i>
+                <span>Home</span>
+            </div>
+            <div class="nav-item">
+                <i class="fas fa-heart"></i>
+                <span>Health</span>
+            </div>
+            <div class="nav-item">
+                <i class="fas fa-map"></i>
+                <span>GPS</span>
+            </div>
+            <div class="nav-item">
+                <i class="fas fa-cog"></i>
+                <span>Settings</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Update time every minute
+            function updateTime() {
+                const now = new Date();
+                const hours = now.getHours().toString().padStart(2, '0');
+                const minutes = now.getMinutes().toString().padStart(2, '0');
+                document.querySelector('.time').textContent = `${hours}:${minutes}`;
+            }
+            
+            updateTime();
+            setInterval(updateTime, 60000);
+            
+            // Simulate dynamic data changes
+            function simulateDataChanges() {
+                const heartRate = Math.floor(Math.random() * 20) + 65; // 65-85 BPM
+                document.querySelector('.heart-rate .stat-value').textContent = heartRate;
+                
+                const heartRateProgress = document.querySelector('.heart-rate .progress');
+                heartRateProgress.style.width = ((heartRate - 60) / 30 * 100) + '%';
+                
+                const spo2 = Math.floor(Math.random() * 3) + 96; // 96-99%
+                document.querySelector('.spo2 .stat-value').textContent = spo2 + '%';
+                
+                const spo2Quality = Math.floor(Math.random() * 10) + 55; // 55-65
+                document.querySelector('.spo2 .stat:nth-child(2) .stat-value').textContent = spo2Quality;
+                
+                const ecgQuality = Math.floor(Math.random() * 10) + 85; // 85-95
+                document.querySelector('.ecg .stat:nth-child(2) .stat-value').textContent = ecgQuality;
+                
+                const ecgProgress = document.querySelector('.ecg .progress');
+                ecgProgress.style.width = ecgQuality + '%';
+            }
+            
+            simulateDataChanges();
+            setInterval(simulateDataChanges, 5000);
+            
+            // SOS button functionality
+            const sosButton = document.querySelector('.sos-button');
+            sosButton.addEventListener('click', function() {
+                alert('SOS alert sent with your current location!\nEmergency services have been notified.');
+                
+                // Visual feedback
+                let pulseCount = 0;
+                const pulse = setInterval(function() {
+                    sosButton.style.boxShadow = `0 0 ${30 + pulseCount*5}px rgba(255, 75, 43, 0.9)`;
+                    pulseCount++;
+                    
+                    if (pulseCount > 5) {
+                        clearInterval(pulse);
+                        sosButton.style.boxShadow = '0 0 20px rgba(255, 75, 43, 0.7)';
+                    }
+                }, 200);
+            });
+        });
+    </script>
+</body>
+</html>
